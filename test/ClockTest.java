@@ -92,7 +92,7 @@ class ClockTest
 
   @Test void set1ArgsOne()
   {
-    clock.set(0);
+    clock.set(1);
     assertEquals("0:0:1", valueOf(clock));
   }
 
@@ -163,5 +163,71 @@ class ClockTest
   @Test void getTimeInSecondsException()
   {
     // No exceptions can be thrown
+  }
+
+  @Test void ticZero()
+  {
+    // No need to check zero
+  }
+
+  @Test void ticOne()
+  {
+    clock.tic();
+    assertEquals("0:0:1", valueOf(clock));
+  }
+
+  @Test void ticMany()
+  {
+    for (int i = 0; i < 185; i++)
+    {
+      clock.tic();
+    }
+    assertEquals("0:3:5", valueOf(clock));
+
+    clock.set(0,0,0);
+    for (int i = 0; i < 86000; i++)
+    {
+      clock.tic();
+    }
+    assertEquals("23:53:20", valueOf(clock));
+
+    clock.set(0,0,0);
+    for (int i = 0; i < 86000 + 86400 * 7; i++)
+    {
+      clock.tic();
+    }
+    assertEquals("23:53:20", valueOf(clock));
+  }
+
+  @Test void ticBoundary()
+  {
+    // left and right for second
+    for (int i = 0; i < 59; i++)
+    {
+      clock.tic();
+    }
+    assertEquals("0:0:59", valueOf(clock));
+    clock.tic();
+    assertEquals("0:1:0", valueOf(clock));
+
+    // left and right for minute
+    clock.set(0,0,0);
+    for (int i = 0; i < 3599; i++)
+    {
+      clock.tic();
+    }
+    assertEquals("0:59:59", valueOf(clock));
+    clock.tic();
+    assertEquals("1:0:0", valueOf(clock));
+
+    // left and right for hour
+    clock.set(0,0,0);
+    for (int i = 0; i < 86399; i++)
+    {
+      clock.tic();
+    }
+    assertEquals("23:59:59", valueOf(clock));
+    clock.tic();
+    assertEquals("0:0:0", valueOf(clock));
   }
 }
