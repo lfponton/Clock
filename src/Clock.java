@@ -174,20 +174,20 @@ public class Clock
    *
    * @return a string representation of the clock in the format HH:MM:SS
    */
-  public String toString() //
+  public String toString() // Edited
   {
     String s = "";
-    if (hour <= 10)
+    if (hour < 10)
     {
       s += "0";
     }
     s += hour + ":";
-    if (minute <= 10)
+    if (minute < 10)
     {
       s += "0";
     }
     s += minute + ":";
-    if (second <= 10)
+    if (second < 10)
     {
       s += "0";
     }

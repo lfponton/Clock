@@ -230,4 +230,65 @@ class ClockTest
     clock.tic();
     assertEquals("0:0:0", valueOf(clock));
   }
+
+  @Test void toStringZero()
+  {
+    assertEquals("00:00:00", clock.toString());
+  }
+
+  @Test void toStringOne()
+  {
+    clock.set(0, 0,1);
+    assertEquals("00:00:01", clock.toString());
+    clock.set(0, 1,0);
+    assertEquals("00:01:00", clock.toString());
+    clock.set(1, 0,0);
+    assertEquals("01:00:00", clock.toString());
+  }
+
+  @Test void toStringMany()
+  {
+    clock.set(0,5,3);
+    assertEquals("00:05:03", clock.toString());
+    clock.set(12,52,7);
+    assertEquals("12:52:07", clock.toString());
+  }
+
+  @Test void toStringBoundary()
+  {
+    // lower right: 0 [tested in toStringZero()]
+    // upper right: 0 [toStringOne(), toStringZero()]
+    // lower left: not possible
+
+    // upper left: 59 for seconds and minutes and 23 for hours
+    clock.set(0,0,59);
+    assertEquals("00:00:59", clock.toString());
+    clock.set(0,59,0);
+    assertEquals("00:59:00", clock.toString());
+    clock.set(23,0,0);
+    assertEquals("23:00:00", clock.toString());
+    clock.set(23,59,59);
+    assertEquals("23:59:59", clock.toString());
+
+    // boundary for two digits, left: 9
+    clock.set(0,0,9);
+    assertEquals("00:00:09", clock.toString());
+    clock.set(0,9,0);
+    assertEquals("00:09:00", clock.toString());
+    clock.set(9,0,0);
+    assertEquals("09:00:00", clock.toString());
+
+    // boundary for two digits, right: 10
+    clock.set(0,0,10);
+    assertEquals("00:00:10", clock.toString());
+    clock.set(0,10,0);
+    assertEquals("00:10:00", clock.toString());
+    clock.set(10,0,0);
+    assertEquals("10:00:00", clock.toString());
+  }
+
+  @Test void toStringException()
+  {
+    // not possible
+  }
 }
