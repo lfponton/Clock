@@ -116,15 +116,15 @@ public class Clock
    * @throws IllegalArgumentException
    *   if totalSeconds is negative
    */
-  public void set(int totalSeconds) //
+  public void set(int totalSeconds) // Edited
   {
     if (totalSeconds < 0)
     {
       throw new IllegalArgumentException("Negative value");
     }
-    if (totalSeconds >= 86400)
+    while (totalSeconds >= 86400)
     {
-      totalSeconds /= 86400;
+      totalSeconds -= 86400;
     }
     this.hour = totalSeconds / 3600;
     this.minute = (totalSeconds % 3600) / 60;
@@ -148,7 +148,7 @@ public class Clock
    * 13:59:59 will be updated to 14:00:00<br>
    * 23:59:59 will be updated to 00:00:00<br>
    */
-  public void tic() //
+  public void tic() // edited
   {
     second++;
     if (second > 59)
@@ -159,7 +159,7 @@ public class Clock
       {
         minute = 0;
         hour++;
-        if (hour > 59)
+        if (hour > 23)
         {
           hour = 0;
         }
