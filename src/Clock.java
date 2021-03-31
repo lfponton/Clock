@@ -74,9 +74,9 @@ public class Clock
    *
    * @return the second
    */
-  public int getSecond() //
+  public int getSecond() // edited
   {
-    return minute;
+    return second;
   }
 
   /**
