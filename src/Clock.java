@@ -92,9 +92,9 @@ public class Clock
    *   if hour is not in the interval [0-23], minute not in the interval [0-59]
    *   or second not in the interval [0-59]
    */
-  public void set(int hour, int minute, int second) //
+  public void set(int hour, int minute, int second) // edited
   {
-    if (hour < 0 || minute < 0 || second < 0 || hour > 59 || minute > 59
+    if (hour < 0 || minute < 0 || second < 0 || hour > 23 || minute > 59
         || second > 59)
     {
       throw new IllegalArgumentException();
