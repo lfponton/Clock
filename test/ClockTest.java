@@ -130,6 +130,8 @@ class ClockTest
     assertThrows(IllegalArgumentException.class, () -> clock.set(-90000));
   }
 
+  // Test methods for getTimeInSeconds()
+
   @Test void getTimeInSecondsZero()
   {
     assertEquals(0, clock.getTimeInSeconds());
@@ -164,6 +166,8 @@ class ClockTest
   {
     // No exceptions can be thrown
   }
+
+  // Test methods for tic()
 
   @Test void ticZero()
   {
@@ -231,6 +235,8 @@ class ClockTest
     assertEquals("0:0:0", valueOf(clock));
   }
 
+  // Test methods for toString()
+
   @Test void toStringZero()
   {
     assertEquals("00:00:00", clock.toString());
@@ -290,5 +296,114 @@ class ClockTest
   @Test void toStringException()
   {
     // not possible
+  }
+
+  // Test methods for constructor 3 parameters
+
+  @Test void constructor3Zero()
+  {
+    clock = new Clock(0,0,0);
+    assertEquals("0:0:0", valueOf(clock));
+  }
+
+  @Test void constructor3One()
+  {
+    clock = new Clock(0,0,1);
+    assertEquals("0:0:1", valueOf(clock));
+    clock = new Clock(0,1,0);
+    assertEquals("0:1:0", valueOf(clock));
+    clock = new Clock(1,0,0);
+    assertEquals("1:0:0", valueOf(clock));
+  }
+
+  @Test void constructor3Many()
+  {
+    clock = new Clock(12,15,20);
+    assertEquals("12:15:20", valueOf(clock));
+    clock = new Clock(7,41,9);
+    assertEquals("7:41:9", valueOf(clock));
+  }
+
+  @Test void constructor3Boundary()
+  {
+    // lower left boundary: -1
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(0,0,-1));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(0,-1,0));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(-1,0,0));
+    // lower right boundary: 0 [already tested in setZero()]
+
+    // upper left boundary: 59 for second and minute, 23 for hour
+    clock = new Clock(0,0,59);
+    assertEquals("0:0:59",valueOf(clock));
+    clock = new Clock(0,59,0);
+    assertEquals("0:59:0",valueOf(clock));
+    clock = new Clock(23,0,0);
+    assertEquals("23:0:0",valueOf(clock));
+
+    // upper right boundary: 60 for second and minute, 24 for hour
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(0,0,60));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(0,60,0));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(24,0,0));
+  }
+
+  @Test void constructor3Exception()
+  {
+    // negative values
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(0, 0, -5));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(0, -5, 0));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(-5, 0, 0));
+
+    // values > 23 for hour and > 59 for seconds and minutes
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(0,0,71));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(0,71,0));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(41,0,0));
+  }
+
+  // Test methods for constructor 3 parameters
+
+  @Test void constructor1Zero()
+  {
+    clock = new Clock(0);
+    assertEquals("0:0:0", valueOf(clock));
+  }
+
+  @Test void constructor1One()
+  {
+    clock = new Clock(1);
+    assertEquals("0:0:1", valueOf(clock));
+  }
+
+  @Test void constructor1Many()
+  {
+    clock = new Clock(185);
+    assertEquals("0:3:5", valueOf(clock));
+    clock = new Clock(86000);
+    assertEquals("23:53:20", valueOf(clock));
+    clock = new Clock(86000 + 86400); // tomorrow
+    assertEquals("23:53:20", valueOf(clock));
+    clock = new Clock(86000 + 7 * 86400); // one week later
+    assertEquals("23:53:20", valueOf(clock));
+  }
+
+  @Test void constructor1Boundary()
+  {
+    // right lower bound: 0 [already done in set1ArgsZero()]
+
+    // left lower bound: -1
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(-1));
+
+    // left upper bound: 86399
+    clock = new Clock(86399);
+    assertEquals("23:59:59", valueOf(clock));
+
+    // right upper bound: 86400
+    clock = new Clock(86400);
+    assertEquals("0:0:0", valueOf(clock));
+  }
+
+  @Test void constructor1Exception()
+  {
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(-26));
+    assertThrows(IllegalArgumentException.class, () -> clock = new Clock(-90000));
   }
 }
