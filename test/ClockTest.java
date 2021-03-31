@@ -60,7 +60,7 @@ class ClockTest
     clock.set(0,59,0);
     assertEquals("0:59:0",valueOf(clock));
     clock.set(23,0,0);
-    assertEquals("59:0:0",valueOf(clock));
+    assertEquals("23:0:0",valueOf(clock));
 
     // upper right boundary: 60 for second and minute, 24 for hour
     assertThrows(IllegalArgumentException.class, () -> clock.set(0,0,60));
